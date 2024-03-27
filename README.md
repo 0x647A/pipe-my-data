@@ -1,4 +1,4 @@
-# pipe-my-data
+![Pipe My Data logo](images/pipe-my-data.png)
 
 This repo is like a cool blog where I'm tracking my data engineering learning journey. 
 
