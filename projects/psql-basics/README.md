@@ -1,7 +1,7 @@
 # Task
 1. Building a virtual machine or a Linux container.
 2. Installing PostgreSQL and creating a database.
-3. Installing PostgreSQL and creating a database.
+3. Loading data into the database with a Python script. 
 
 # Solution
 ## Building a virtual machine or a Linux container
