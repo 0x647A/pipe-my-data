@@ -58,6 +58,21 @@
 
         Remember, you need to have Docker installed on your machine to perform the steps above.
 
+    5. To run commands inside a running container, you need to execute this:
+        ```bash
+        docker exec -it <container name or ID> psql
+        ```
+        `docker exec`: This is a Docker command that allows you to run a command inside a running container.
+
+        `-it`: This option is actually two flags combined.
+            
+        - `-i` or --interactive keeps STDIN open even if not attached. This means you can interact with the command as if it were running in your terminal.
+        - `-t` or `--tty` allocates a pseudo-TTY, which makes the container's shell interactive. It simulates a terminal, like what you'd get when you use an SSH session. This is useful for commands that require user interaction or that produce formatted output.
+
+        `<container name or ID>`: This is the name or ID of the Docker container you're targeting with the command. Docker container names and IDs are unique, so this specifies exactly which container you're intending to run your command in.
+
+        `psql`: This is the command being executed inside the container. psql is the interactive terminal for working with PostgreSQL. By running this command, you're starting a PostgreSQL client session connected to a PostgreSQL server. The client will connect using default parameters for the server, database, and authentication, unless these are configured differently in the container environment.
+
     ### Issues:
     - The Ubuntu image did not have package metadata, so it was necessary to run apt-get update before installing the package.
 
