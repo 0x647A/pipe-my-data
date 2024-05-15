@@ -26,6 +26,10 @@ Apache Spark provides several data structures that cater to different needs for 
 - **Features**: Datasets provide type safety, which is not available in DataFrames, and are optimized by the Catalyst query optimizer, similar to DataFrames.
 - **Use Cases**: Datasets are generally used when you need type safety for JVM objects (especially in Scala or Java API) and want to take advantage of Catalyst’s optimization capabilities.
 
+### Important! 
+
+In Apache Spark, although Datasets (including DataFrames) provide a more optimized and high-level interface for data processing, they are fundamentally based on RDDs (Resilient Distributed Datasets) underneath. RDD is the core data abstraction in Spark, offering a resilient and distributed collection of objects. Datasets and DataFrames were introduced to provide a higher level of abstraction, enabling more optimized data processing and better support for query optimization. However, every operation performed on Datasets or DataFrames eventually gets transformed into operations on RDDs. This allows them to leverage the same fault-tolerant and distributed computation capabilities that are key features of RDDs.
+
 ## The questions I asked myself while working with data structures in Spark: 
 
 ## Why did I use SparkContext when working with RDDs, and SparkSession when working with DataFrames?
