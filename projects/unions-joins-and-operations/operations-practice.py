@@ -31,7 +31,8 @@ type_counts = df.groupBy("type").count()
 type_counts.show()
 
 # Count the number of titles directed by each director
-director_counts = df.groupBy("director").count().orderBy(col("count").desc())
+director_counts = df.withColumn("director", explode(split(col("director"), ", "))) \
+                    .groupBy("director").count().orderBy(col("count").desc())
 director_counts.show()
 
 # Statistics by year – how many films were made per year (displayed in chronological order)
@@ -39,9 +40,10 @@ titles_per_year = df.groupBy("release_year").count().orderBy("release_year")
 titles_per_year.show()
 
 # Count the number of titles assigned to each genre (listed_in)
-genre_counts = df.withColumn("genre", when(col("listed_in").isNull(), "NULL").otherwise(col("listed_in"))) \
+# Split and explode the listed_in column, then count the occurrences of each genre
+genre_counts = df.withColumn("genre", explode(split(col("listed_in"), ", "))) \
                  .groupBy("genre").count().orderBy(col("count").desc())
-genre_counts.show()
+genre_counts.show(truncate=False)
 
 # Stop the Spark session
 spark.stop()
@@ -67,30 +69,56 @@ spark.stop()
 # |William Wyler|    1|
 # +-------------+-----+
 
-# +--------------------+-----+
-# |            director|count|
-# +--------------------+-----+
-# |           Not Given| 2588|
-# |       Rajiv Chilaka|   20|
-# | Alastair Fothergill|   18|
-# |Raúl Campos, Jan ...|   18|
-# |        Marcus Raboy|   16|
-# |         Suhas Kadav|   16|
-# |           Jay Karas|   14|
-# | Cathy Garcia-Molina|   13|
-# |     Youssef Chahine|   12|
-# |     Martin Scorsese|   12|
-# |         Jay Chapman|   12|
-# |    Steven Spielberg|   11|
-# |    Don Michael Paul|   10|
-# |Mark Thornton, To...|   10|
-# |        David Dhawan|    9|
-# |    Robert Rodriguez|    8|
-# |         Troy Miller|    8|
-# |      Kunle Afolayan|    8|
-# |     Fernando Ayllón|    8|
-# |         Hakan Algül|    8|
-# +--------------------+-----+
+# +-------------------+-----+
+# |           director|count|
+# +-------------------+-----+
+# |          Not Given| 2588|
+# |      Rajiv Chilaka|   23|
+# |          Jan Suter|   21|
+# |        Raúl Campos|   19|
+# |Alastair Fothergill|   19|
+# |       Marcus Raboy|   16|
+# |        Suhas Kadav|   16|
+# |          Jay Karas|   15|
+# |Cathy Garcia-Molina|   13|
+# |    Youssef Chahine|   12|
+# |    Martin Scorsese|   12|
+# |        Jay Chapman|   12|
+# |      Todd Kauffman|   11|
+# |      Mark Thornton|   11|
+# |   Steven Spielberg|   11|
+# |   Don Michael Paul|   10|
+# |       David Dhawan|    9|
+# |    Shannon Hartman|    9|
+# |     Yılmaz Erdoğan|    9|
+# |     Anurag Kashyap|    9|
+# +-------------------+-----+
+# only showing top 20 rows
+
+# +------------------------+-----+
+# |genre                   |count|
+# +------------------------+-----+
+# |International Movies    |2752 |
+# |Dramas                  |2426 |
+# |Comedies                |1674 |
+# |International TV Shows  |1349 |
+# |Documentaries           |868  |
+# |Action & Adventure      |859  |
+# |TV Dramas               |762  |
+# |Independent Movies      |756  |
+# |Children & Family Movies|641  |
+# |Romantic Movies         |616  |
+# |Thrillers               |577  |
+# |TV Comedies             |573  |
+# |Crime TV Shows          |469  |
+# |Kids' TV                |448  |
+# |Docuseries              |394  |
+# |Music & Musicals        |375  |
+# |Romantic TV Shows       |370  |
+# |Horror Movies           |357  |
+# |Stand-Up Comedy         |343  |
+# |Reality TV              |255  |
+# +------------------------+-----+
 # only showing top 20 rows
 
 # +------------+-----+
@@ -117,30 +145,4 @@ spark.stop()
 # |        1966|    1|
 # |        1967|    5|
 # +------------+-----+
-# only showing top 20 rows
-
-# +--------------------+-----+
-# |               genre|count|
-# +--------------------+-----+
-# |Dramas, Internati...|  362|
-# |       Documentaries|  359|
-# |     Stand-Up Comedy|  334|
-# |Comedies, Dramas,...|  274|
-# |Dramas, Independe...|  252|
-# |            Kids' TV|  219|
-# |Children & Family...|  215|
-# |Children & Family...|  201|
-# |Documentaries, In...|  186|
-# |Dramas, Internati...|  180|
-# |Comedies, Interna...|  176|
-# |Comedies, Interna...|  152|
-# |              Dramas|  137|
-# |Dramas, Internati...|  134|
-# |Action & Adventur...|  132|
-# |  Action & Adventure|  128|
-# |International TV ...|  121|
-# |Comedies, Dramas,...|  116|
-# |            Comedies|  110|
-# |Crime TV Shows, I...|  110|
-# +--------------------+-----+
 # only showing top 20 rows
