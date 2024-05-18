@@ -13,7 +13,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Load data from CSV file
-file_path = "pizza_data.csv"
+file_path = "/datasets/pizza_data.csv"
 pizza_df = spark.read.csv(file_path, header=True, inferSchema=True)
 
 # View the schema of the data
@@ -56,3 +56,37 @@ else:
 
 # Stop Spark session
 spark.stop()
+
+# root
+#  |-- Company: string (nullable = true)
+#  |-- Pizza Name: string (nullable = true)
+#  |-- Type: string (nullable = true)
+#  |-- Size: string (nullable = true)
+#  |-- Price: string (nullable = true)
+
+# +--------------+------------------+-------------+---------------+-----+
+# |       Company|        Pizza Name|         Type|           Size|Price|
+# +--------------+------------------+-------------+---------------+-----+
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza| "Small (10"")"|$5.99|
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza|"Medium (12"")"|$7.99|
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza| "Large (14"")"|$9.99|
+# |Domino's Pizza|      Handmade Pan|Cheeses Pizza|"Medium (12"")"|$7.99|
+# |Domino's Pizza|Crunchy Thin Crust|Cheeses Pizza| "Small (10"")"|$5.99|
+# +--------------+------------------+-------------+---------------+-----+
+# only showing top 5 rows
+
+# +--------------+------------------+-------------+---------+-----+
+# |       Company|        Pizza Name|         Type|     Size|Price|
+# +--------------+------------------+-------------+---------+-----+
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza| Small 10| 5.99|
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza|Medium 12| 7.99|
+# |Domino's Pizza|       Hand Tossed|Cheeses Pizza| Large 14| 9.99|
+# |Domino's Pizza|      Handmade Pan|Cheeses Pizza|Medium 12| 7.99|
+# |Domino's Pizza|Crunchy Thin Crust|Cheeses Pizza| Small 10| 5.99|
+# +--------------+------------------+-------------+---------+-----+
+# only showing top 5 rows
+
+# Number of medium pizzas: 111
+# Maximum price of medium pizzas: 22.489999771118164
+# Minimum price of medium pizzas: 7.989999771118164
+# Average price of medium pizzas: 15.58468450082315
