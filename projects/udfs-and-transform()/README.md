@@ -132,3 +132,29 @@ The `transform()` function is used when you need to perform operations on each e
 
 - Limited to operations on array columns.
 - May be less intuitive for users unfamiliar with higher-order functions in PySpark.
+
+## Additional - `@staticmethod`
+
+### TLTR
+`@staticmethod` - Decorator indicating that the following method is static and does not require an instance of the class to be called.
+
+Using the `@staticmethod` decorator in Python provides a way to define methods that belong to a class but do not require access to any instance-specific data (i.e., they do not require self). 
+
+### Why Use `@staticmethod`?
+
+- **No Instance Dependency**: Static methods do not require access to instance variables or methods. They are independent and can be called on the class itself, not needing an instance of the class. This makes it clear that the method does not modify the state of the instance.
+
+- **Namespace Organization**: Using static methods helps organize related functions under a class namespace, making the code more modular and readable. It indicates that these functions logically belong to the class but do not depend on instance-specific data.
+
+- **Code Clarity**: By using @staticmethod, you make it explicit that these methods are utility functions that do not alter or rely on the instance state. This improves the readability and maintainability of the code.
+
+- **But seriously, I used it just to practice it :)**
+
+### How to Use @staticmethod
+
+To use `@staticmethod`, you simply decorate the method inside the class with `@staticmethod`. 
+
+- **With `@staticmethod`**: You can call methods without creating an instance of the class. The methods are directly assigned to the class.
+- **Without `@staticmethod`**: You need to create an instance of the class to call its methods. The methods must take self as the first argument.
+
+Using `@staticmethod` simplifies the code if the method does not need access to instance data. In our case, the functions `count_words` and `count_chars` do not need access to instance data, so using `@staticmethod` is more appropriate.
