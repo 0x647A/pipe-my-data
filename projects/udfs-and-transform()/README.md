@@ -5,14 +5,14 @@ The dataset from:
 
 ## User-Defined Functions (UDF)
 
-### What is a UDF?
+### What is an UDF?
 User-Defined Functions (UDF) are custom functions defined by the user that allow for performing non-standard operations on data in a PySpark DataFrame. UDFs enable using Python functions directly in Spark queries.
 
 ### Example Syntax
-To create, register, and invoke a UDF in PySpark, follow these steps:
+To create, register, and invoke an UDF in PySpark, follow these steps:
 
 1. **Create the function**: Define the Python function that will be your UDF.
-2. **Register the UDF**: Register the function as a UDF, specifying the return type.
+2. **Register the UDF**: Register the function as an UDF, specifying the return type.
 3. **Invoke the UDF**: Use the registered UDF in a Spark query.
 
 Example:
