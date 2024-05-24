@@ -40,6 +40,7 @@ This file contains the `TweetAnalyzer` class that provides methods for analyzing
   - Constants for column names: `HASHTAG_COLUMN`, `IS_RETWEET_COLUMN`, `SOURCE_COLUMN`, `USER_FOLLOWERS`, `USER_NAME`, `USER_LOCATION`.
   - `count_hashtags()`: Counts occurrences of hashtags.
   - `count_retweets()`: Counts the number of retweets.
+  - `count_user_verified()`: Counts the number of verified users.
   - `count_sources()`: Counts the number of tweets from each source.
   - `avg_followers_per_location()`: Calculates the average number of followers per location.
 
