@@ -7,9 +7,21 @@ class DataCleaner:
     @staticmethod
     def clean_hashtags(df: DataFrame) -> DataFrame:
         # Clean the 'hashtags' column using regexp and split
-        df = df.withColumn('hashtags', regexp_replace(col('hashtags'), r'[^\w#]', ''))
-        df = df.withColumn('hashtags', split(col('hashtags'), '#'))
-        return df
+        df_cleaned = df.withColumn("cleaned_hashtags", regexp_replace(col("hashtags"), "[\[\]']", ""))
+
+        # Split by comma
+        df_split = df_cleaned.withColumn("hashtag_list", split(col("cleaned_hashtags"), ","))
+
+        # Explode to separate the list into individual rows
+        df_exploded = df_split.withColumn("hashtag", explode(col("hashtag_list")))
+
+        # Group and count hashtags
+        df_count = df_exploded.groupBy("hashtag").count()
+
+        # Sort the results
+        df_sorted = df_count.orderBy(col("count").desc())
+        
+        return df_sorted
 
     @staticmethod
     def convert_column_types(df: DataFrame) -> DataFrame:
