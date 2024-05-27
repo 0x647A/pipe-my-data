@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import regexp_replace, split, col
+from pyspark.sql.functions import regexp_replace, split, col, explode, lower, trim
 from pyspark.sql.types import DateType, LongType
 
 class DataCleaner:
@@ -7,21 +7,21 @@ class DataCleaner:
     @staticmethod
     def clean_hashtags(df: DataFrame) -> DataFrame:
         # Clean the 'hashtags' column using regexp and split
-        df_cleaned = df.withColumn("cleaned_hashtags", regexp_replace(col("hashtags"), "[\[\]']", ""))
-
+        df = df.withColumn("cleaned_hashtags", regexp_replace(col("hashtags"), "[\[\]']", ""))
         # Split by comma
-        df_split = df_cleaned.withColumn("hashtag_list", split(col("cleaned_hashtags"), ","))
-
+        df = df.withColumn("hashtag_list", split(col("cleaned_hashtags"), ","))
         # Explode to separate the list into individual rows
-        df_exploded = df_split.withColumn("hashtag", explode(col("hashtag_list")))
-
-        # Group and count hashtags
-        df_count = df_exploded.groupBy("hashtag").count()
-
-        # Sort the results
-        df_sorted = df_count.orderBy(col("count").desc())
-        
-        return df_sorted
+        df = df.withColumn("hashtag", explode(col("hashtag_list")))
+        # Remove white spaces and convert to lowercase
+        df = df.withColumn("hashtag", lower(trim(col("hashtag"))))
+        # Filtering unwanted hashtags
+        df = df.filter(
+            (col("hashtag") != "") &
+            (col("hashtag").rlike("^[a-zA-Z0-9_]+$")) &  # Only alphanumeric characters and underscores
+            (~col("hashtag").rlike("^[0-9]+$")) &        # Exclude single numbers
+            (~col("hashtag").rlike("http"))              # Exclude links and URLs
+        )
+        return df
 
     @staticmethod
     def convert_column_types(df: DataFrame) -> DataFrame:
