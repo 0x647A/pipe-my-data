@@ -51,7 +51,7 @@ def main():
     # Perform searches
     word_search_result = search.search_by_word("covid")
     words_search_result = search.search_by_words(["covid", "pandemic", "virus"])
-    location_search_result = search.search_by_word_and_location("covid", "New York")
+    filtered_tweets = search.filter_tweets(keyword="music", location="Los Angeles")
 
     # Display the search results
     print("Search by Word 'covid':")
@@ -60,8 +60,8 @@ def main():
     print("Search by Words ['covid', 'pandemic', 'virus']:")
     words_search_result.show()
 
-    print("Search by Word 'covid' and Location 'New York':")
-    location_search_result.show()
+    print("Search by Word 'music' and Location 'Los Angeles':")
+    filtered_tweets.show(truncate=False)
 
     # Stop the Spark session
     spark.stop()
@@ -69,42 +69,42 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Hashtag Counts:                                                                                                                    
-# 
-# +--------------------+-----+                                                                                                       
-# |            hashtags|count|
-# +--------------------+-----+
-# |                   0| 1421|
-# |             GRAMMYs| 1285|
-# |           labelNone|  309|
-# |                   1|  265|
-# |             Grammys|  130|
-# |                   2|   97|
-# |      protectedFalse|   79|
-# |         linkUrlNone|   77|
-# |      linkTcourlNone|   64|
-# |                   3|   54|
-# |             grammys|   37|
-# |favouritesCount93219|   30|
-# |linkTcourlhttpstc...|   27|
-# |                   4|   26|
-# |                   5|   22|
-# |profileBannerUrlNone|   20|
-# |label_typesnscrap...|   14|
-# |linkTcourlhttpstc...|   13|
-# |urlhttpstwitterco...|   13|
-# |urlhttpstwitterco...|   13|
-# +--------------------+-----+
+# Hashtag Counts:                                                                                                                                                                                                                                                                                                           
+
+# +-----------------+-----+                                                                                                                                                                                                                                                                                                 
+# |          hashtag|count|
+# +-----------------+-----+
+# |          grammys| 2014|
+# |              bts|   29|
+# |            music|   24|
+# |  singyourdialect|   18|
+# |        cryptoban|   18|
+# |grammynominations|   17|
+# |      blackfriday|   15|
+# | btsxlatelateshow|   15|
+# |          scammys|   13|
+# |     thanksgiving|   12|
+# |           wizkid|   11|
+# |      taylorswift|   11|
+# |            false|   11|
+# |     evermoreaoty|   11|
+# |    biracialspace|   11|
+# |     btsxlatelate|   11|
+# |       aroojaftab|   10|
+# |          hawkeye|   10|
+# |             btsv|   10|
+# |         evermore|    9|
+# +-----------------+-----+
 # only showing top 20 rows
-#
+
 # Number of Retweets:
 # 0
-#
+
 # Number of Verified User:
 # 146
-#
+
 # Source Counts:
-# +-------------------+-----+                                                                                                        
+# +-------------------+-----+                                                                                                                                                                                                                                                                                               
 # |             source|count|
 # +-------------------+-----+
 # | Twitter for iPhone| 1246|
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 # |       TickerReport|  335|
 # +-------------------+-----+
 # only showing top 20 rows
-#
+
 # Average Followers per Location:
 # +--------------------+------------------+
 # |       user_location|     avg_followers|
@@ -156,43 +156,53 @@ if __name__ == "__main__":
 # |San Francisco, LA...|          219217.0|
 # +--------------------+------------------+
 # only showing top 20 rows
-#
+
 # Search by Word 'covid':
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+---------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+----------+-------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+
-# | url|      date|content|renderedContent|  id|user|replyCount|retweetCount|likeCount|quoteCount|conversationId|lang|         source|sourceUrl|sourceLabel|outlinks|tcooutlinks|media|retweetedTweet|quotedTweet|inReplyToTweetId|inReplyToUser|mentionedUsers|coordinates|place|            hashtags|cashtags|category| user_name|user_location|    user_description|user_created|user_followers|user_friends|user_favourites|user_verified|                text|is_retweet|timestamp|symbols|company_names|verified|
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+---------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+----------+-------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+
-# |NULL|2021-11-24|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|Twitter Web App|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[ConversationsDai...|    NULL| grammys|Cyrus Webb|  Mississippi|Welcome! I am a #...|  2009-01-30|         11326|       12376|           8388|        False|Wednesday's editi...|     False|     NULL|   NULL|         NULL|    NULL|
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+---------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+----------+-------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+
-#
+# +--------------------+----------+-------------+
+# |                text| user_name|user_location|
+# +--------------------+----------+-------------+
+# |Wednesday's editi...|Cyrus Webb|  Mississippi|
+# +--------------------+----------+-------------+
+
 # Search by Words ['covid', 'pandemic', 'virus']:
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+-------------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+---------------------+--------------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+--------------------+
-# | url|      date|content|renderedContent|  id|user|replyCount|retweetCount|likeCount|quoteCount|conversationId|lang|             source|sourceUrl|sourceLabel|outlinks|tcooutlinks|media|retweetedTweet|quotedTweet|inReplyToTweetId|inReplyToUser|mentionedUsers|coordinates|place|            hashtags|cashtags|category|            user_name|       user_location|    user_description|user_created|user_followers|user_friends|user_favourites|user_verified|                text|is_retweet|timestamp|symbols|company_names|verified|       words_in_text|
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+-------------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+---------------------+--------------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+--------------------+
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|   Twitter for iPad|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[GrammysLakersTan...|    NULL| grammys|        Russell Mucki|     Kampala, Uganda|Am a singer, mult...|  2021-05-18|           652|         576|            140|        False|Share the love &a...|     False|     NULL|   NULL|         NULL|    NULL|[Share, the, love...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|                kayla|          Denver, CO|Temple University...|  2015-02-28|           330|         266|          17294|        False|the way pipe down...|     False|     NULL|   NULL|         NULL|    NULL|[the, way, pipe, ...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|     Hootsuite Inc.|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[GrammysAfricaBoo...|    NULL| grammys|         METROFM SABC|        South Africa|South Africa's nu...|  2012-02-07|       2031993|          41|           2438|         True|We celebrate all ...|     False|     NULL|   NULL|         NULL|    NULL|[We, celebrate, a...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|Twitter for Android|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|  [GRAMMYsBallonDor]|    NULL| grammys|        Kylie Minogue|              Albina|     Britney Spears"|  2021-11-10|            48|         241|           3597|        False|Even the #GRAMMYs...|     False|     NULL|   NULL|         NULL|    NULL|[Even, the, #GRAM...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|         [npGRAMMYs]|    NULL| grammys|     Tunicia Phillips|Johannesburg, Sou...|M&G - Environment...|  2011-05-31|          3162|        5003|           9010|        False|#np Here we are a...|     False|     NULL|   NULL|         NULL|    NULL|[#np, Here, we, a...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|    Twitter Web App|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|            The Sauce|      Nairobi, Kenya|Your plug for the...|  2012-04-10|          9149|         843|            923|        False|Nominations for t...|     False|     NULL|   NULL|         NULL|    NULL|[Nominations, for...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|  [GRAMMYsBTSSCAMMY]|    NULL| grammys|Cindy 신디 💟 🅑🅣🅢⁷| Bangtan, California|A-YO!! OT⁷ stan w...|  2021-03-26|            33|         365|           1306|        False|WTF? #GRAMMYs mad...|     False|     NULL|   NULL|         NULL|    NULL|[WTF?, #GRAMMYs, ...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|Twitter for Android|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[GRAMMYstheWorldb...|    NULL| grammys|             PEͥLAͣHͫ|       Lagos Nigeria|Trying to put me ...|  2019-09-07|           266|         395|           1649|        False|@RecordingAcad #G...|     False|     NULL|   NULL|         NULL|    NULL|[@RecordingAcad, ...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|       Joshua Andrews|      Chesapeake, VA|• Jesus is #1 🙌?...|  2010-09-19|           775|         799|          34516|        False|HER BEST ALBUM AN...|     False|     NULL|   NULL|         NULL|    NULL|[HER, BEST, ALBUM...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [grammys]|    NULL| grammys|                 Kath|Brooklyn Heights, NY|Good coffee ☕️, g...|  2009-03-02|          1258|        1707|         101782|        False|This is a categor...|     False|     NULL|   NULL|         NULL|    NULL|[This, is, a, cat...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|Twitter for Android|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|   Fernanda || 💿🇨🇴|            Colombia|                   a|  2021-09-02|           678|        1194|          11679|        False|#GRAMMYs FLOP htt...|     False|     NULL|   NULL|         NULL|    NULL|[#GRAMMYs, FLOP, ...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [Grammys]|    NULL| grammys|         BareKey 🐻🔑|       Jozi, Gauteng|Live first, tweet...|  2021-01-09|           179|         167|             85|        False|They should’ve no...|     False|     NULL|   NULL|         NULL|    NULL|[They, should’ve,...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[GrammysFckUGrammys]|    NULL| grammys| 💛THEE K-12 is th...|       United States|Democrat 💙 USAF ...|  2013-01-05|          4516|        5003|         247088|        False|Fck Joe Rogan &am...|     False|     NULL|   NULL|         NULL|    NULL|[Fck, Joe, Rogan,...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|Twitter for Android|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|                  igo|  Marina del Rey, CA|LG & LDR LTDA com...|  2018-12-29|          1428|        1328|           7978|        False|@elizgrant_ best ...|     False|     NULL|   NULL|         NULL|    NULL|[@elizgrant_, bes...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|   Twitter for iPad|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys| TYLER THEE MF STA...|                 ATL|#BlackLivesMatter...|  2019-10-06|            30|         266|          47459|        False|Planet HER winnin...|     False|     NULL|   NULL|         NULL|    NULL|[Planet, HER, win...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|    Twitter Web App|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[WandaVisionGramm...|    NULL| grammys|           Random Guy|   177a Bleecker St.|looking out the w...|  2013-02-24|            13|         174|          14380|        False|Look at this beau...|     False|     NULL|   NULL|         NULL|    NULL|[Look, at, this, ...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|   ᴍᴏᴄʜᴀ ᴄʜᴏᴄᴏʟᴀᴛᴀ ☕️|             Wakanda|Variety is the sp...|  2010-11-24|           768|         741|          73844|        False|This will forever...|     False|     NULL|   NULL|         NULL|    NULL|[This, will, fore...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL|            Echobox|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|              Rappler|         Philippines|The Social News N...|  2011-07-07|       3516624|         409|           7964|         True|Did your favorite...|     False|     NULL|   NULL|         NULL|    NULL|[Did, your, favor...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|[WizkidRonaldoDJN...|    NULL| grammys|           oluwazhini|      Lagos, Nigeria|*creative choreog...|  2019-09-04|            77|         135|           7518|        False|🎵; eh God by @Ki...|     False|     NULL|   NULL|         NULL|    NULL|[🎵;, eh, God, by...|
-# |NULL|2021-11-27|   NULL|           NULL|NULL|NULL|      NULL|        NULL|     NULL|      NULL|          NULL|NULL| Twitter for iPhone|     NULL|       NULL|    NULL|       NULL| NULL|          NULL|       NULL|            NULL|         NULL|          NULL|       NULL| NULL|           [GRAMMYs]|    NULL| grammys|     Fadhil Ramadhani|Jakarta Capital R...|Views and opinion...|  2009-09-26|           131|         231|           2067|        False|Just saying it ri...|     False|     NULL|   NULL|         NULL|    NULL|[Just, saying, it...|
-# +----+----------+-------+---------------+----+----+----------+------------+---------+----------+--------------+----+-------------------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------------------+--------+--------+---------------------+--------------------+--------------------+------------+--------------+------------+---------------+-------------+--------------------+----------+---------+-------+-------------+--------+--------------------+
+# +--------------------+---------------------+--------------------+
+# |                text|            user_name|       user_location|
+# +--------------------+---------------------+--------------------+
+# |Share the love &a...|        Russell Mucki|     Kampala, Uganda|
+# |the way pipe down...|                kayla|          Denver, CO|
+# |We celebrate all ...|         METROFM SABC|        South Africa|
+# |Even the #GRAMMYs...|        Kylie Minogue|              Albina|
+# |#np Here we are a...|     Tunicia Phillips|Johannesburg, Sou...|
+# |Nominations for t...|            The Sauce|      Nairobi, Kenya|
+# |WTF? #GRAMMYs mad...|Cindy 신디 💟 🅑🅣🅢⁷| Bangtan, California|
+# |@RecordingAcad #G...|             PEͥLAͣHͫ|       Lagos Nigeria|
+# |HER BEST ALBUM AN...|       Joshua Andrews|      Chesapeake, VA|
+# |This is a categor...|                 Kath|Brooklyn Heights, NY|
+# |#GRAMMYs FLOP htt...|   Fernanda || 💿🇨🇴|            Colombia|
+# |They should’ve no...|         BareKey 🐻🔑|       Jozi, Gauteng|
+# |Fck Joe Rogan &am...| 💛THEE K-12 is th...|       United States|
+# |@elizgrant_ best ...|                  igo|  Marina del Rey, CA|
+# |Planet HER winnin...| TYLER THEE MF STA...|                 ATL|
+# |Look at this beau...|           Random Guy|   177a Bleecker St.|
+# |This will forever...|   ᴍᴏᴄʜᴀ ᴄʜᴏᴄᴏʟᴀᴛᴀ ☕️|             Wakanda|
+# |Did your favorite...|              Rappler|         Philippines|
+# |🎵; eh God by @Ki...|           oluwazhini|      Lagos, Nigeria|
+# |Just saying it ri...|     Fadhil Ramadhani|Jakarta Capital R...|
+# +--------------------+---------------------+--------------------+
 # only showing top 20 rows
-#
-# Search by Word 'covid' and Location 'New York':
-# +---+----+-------+---------------+---+----+----------+------------+---------+----------+--------------+----+------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------+--------+--------+---------+-------------+----------------+------------+--------------+------------+---------------+-------------+----+----------+---------+-------+-------------+--------+
-# |url|date|content|renderedContent| id|user|replyCount|retweetCount|likeCount|quoteCount|conversationId|lang|source|sourceUrl|sourceLabel|outlinks|tcooutlinks|media|retweetedTweet|quotedTweet|inReplyToTweetId|inReplyToUser|mentionedUsers|coordinates|place|hashtags|cashtags|category|user_name|user_location|user_description|user_created|user_followers|user_friends|user_favourites|user_verified|text|is_retweet|timestamp|symbols|company_names|verified|
-# +---+----+-------+---------------+---+----+----------+------------+---------+----------+--------------+----+------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------+--------+--------+---------+-------------+----------------+------------+--------------+------------+---------------+-------------+----+----------+---------+-------+-------------+--------+
-# +---+----+-------+---------------+---+----+----------+------------+---------+----------+--------------+----+------+---------+-----------+--------+-----------+-----+--------------+-----------+----------------+-------------+--------------+-----------+-----+--------+--------+--------+---------+-------------+----------------+------------+--------------+------------+---------------+-------------+----+----------+---------+-------+-------------+--------+
+
+# Search by Word 'music' and Location 'Los Angeles':
+# +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+-----------------------------+
+# |text                                                                                                                                                                                                                                                           |user_name                  |user_location                |
+# +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+-----------------------------+
+# |Congratulations to @sonymusic artists on their 2022 @RecordingAcad #GRAMMYs nominations! https://t.co/7hy922x0Cp                                                                                                                                               |Right Angles               |London, New York, Los Angeles|
+# |@latimes A little bit like the 80s and the 90s when black people could really sing. #BTS #GRAMMYs  #music                                                                                                                                                      |J West #TBT #TBH #OOTD #ICO|Los Angeles, CA              |
+# |Read below our #GRAMMYs 2022 Nomination Recap and the women creating milestones in music 🎶 https://t.co/YPQFPYMWH7                                                                                                                                            |Girls Behind the Rock Show |Los Angeles, CA              |
+# |#GRAMMYs  is not a world wide award it is for white alone you people should stop deceiving us with it that Grammy belongs to everyone @RecordingAcad @ColumbiaRecords Wizkid music and album go so far more than the people nominated on record of the year    |chiz Alexander             |Los Angeles, CA              |
+# |Sneak peak!! HOURS🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 release date. Dec 22-22 #GRAMMYs #Maanadu #popmusic #singersongwriter #jamesbene #NewMusicAlert #love https://t.co/ZDLYWoi2sv                                                                                           |James Bene                 |Los Angeles, CA              |
+# |"And congrats to @JonBatiste for his additional #GRAMMYs nominations for  Best Improvised Jazz Solo for ""Bigger Than Us"" from #PixarSoul and Best Jazz Instrumental Album for Jazz Selections: Music From and Inspired by Soul! 🎷🎶 https://t.co/8H8paCgGxH"|Disney Music               |Los Angeles, CA              |
+# |Jon Batiste, Justin Bieber and H.E.R. lead Grammy Awards nominations https://t.co/b2VWfDDFe4 #GRAMMYs #GrammyAwards #GrammyAwards2022 .@justinbieber .@JonBatiste .@HERMusicx #awards                                                                          |TVMusic Network            |Los Angeles, CA              |
+# |Pinching ourselves over the news that our @billieeilish concert film has been nominated at the #GRAMMYs! A huge congratulations to @PatrickTOsborne and the entire #HappierThanEver team https://t.co/xnl9KoJgvl #bestmusicfilm                                |Nexus Studios              |London | Los Angeles | Sydney|
+# |Congratulations to our #Grammys nominees @dreamtheaternet, @GojiraMusic, &amp; @WolfVanHalen/@MammothWVH. https://t.co/5v527Aw0p3                                                                                                                              |Cosa Nostra PR             |London and Los Angeles       |
+# |Give @jsullivanmusic ALL her things. Goodnight. #GRAMMYs                                                                                                                                                                                                       |Brooke Lynn Hytes          |Los Angeles, CA              |
+# +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+-----------------------------+
