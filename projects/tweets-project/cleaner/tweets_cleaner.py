@@ -1,15 +1,13 @@
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import regexp_replace, split, col, explode, lower, trim
-from pyspark.sql.types import DateType, LongType
+from pyspark.sql.functions import col, explode, lower, trim, from_json
+from pyspark.sql.types import DateType, LongType, ArrayType, StringType
 
 class DataCleaner:
 
     @staticmethod
     def clean_hashtags(df: DataFrame) -> DataFrame:
-        # Clean the 'hashtags' column using regexp and split
-        df = df.withColumn("cleaned_hashtags", regexp_replace(col("hashtags"), "[\[\]']", ""))
-        # Split by comma
-        df = df.withColumn("hashtag_list", split(col("cleaned_hashtags"), ","))
+        # Converts the "hashtags" column from JSON format to an array of strings
+        df = df.withColumn("hashtag_list", from_json(col("hashtags"), ArrayType(StringType())))
         # Explode to separate the list into individual rows
         df = df.withColumn("hashtag", explode(col("hashtag_list")))
         # Remove white spaces and convert to lowercase
